@@ -729,6 +729,9 @@ int SrsHlsCache::write_audio(SrsAvcAacCodec* codec, SrsHlsMuxer* muxer, int64_t 
         if ((ret = muxer->flush_audio(cache)) != ERROR_SUCCESS) {
             return ret;
         }
+		// If flush_audio is called, cache->audio will be free and point to NULL.
+		// So we should return here to prevent segment fault at below.
+		return ret;
     }
 
     // TODO: config it.
@@ -739,6 +742,9 @@ int SrsHlsCache::write_audio(SrsAvcAacCodec* codec, SrsHlsMuxer* muxer, int64_t 
         if ((ret = muxer->flush_audio(cache)) != ERROR_SUCCESS) {
             return ret;
         }
+		// If flush_audio is called, cache->audio will be free and point to NULL.
+		// So we should return here to prevent segment fault at below.
+		return ret;
     }
     
     // reap when current source is pure audio.
